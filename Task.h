@@ -12,7 +12,7 @@ class Task{
         bool isCompleted = 0;
 
     public:
-        Task(std::string, time_t, double, std::string = "");
+        Task(std::string, time_t, double, std::string = "", bool = 0);
         ~Task();
 
         std::string getName();
@@ -21,11 +21,11 @@ class Task{
         double getExpectedTime();
         bool getIsCompleted();
         
-        void setName(std::string name);
-        void setDescription(std::string description);
-        void setDueDate(time_t dueDate);
-        void setExpectedTime(double expectedTime);
-        void setIsCompleted(bool isCompleted);
+        void setName(std::string);
+        void setDescription(std::string);
+        void setDueDate(time_t);
+        void setExpectedTime(double);
+        void setIsCompleted(bool);
 
         void printTask();
         double workHoursLeft();

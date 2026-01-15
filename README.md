@@ -1,9 +1,10 @@
 # Planer
 
-Program zawiera zadania (Task) do wykonania. 
+Program zawiera zadania (Task) do wykonania.
 Użytkownik może dodawać nowe zadania i zmieniać ich status wykonania.
 Jeżeli ilość godzin roboczych pozostałych do terminu wykonania zadania zbliża się do oczekiwanego czasu pracy zadania, program ostrzeże o tym użytkownika. 
 Użytkownik może również zmienić ilość swoich godzin roboczych oraz zaznaczyć czy pracuje w weekendy.
+Przy wywoływaniu programu, użytkownik może podać nazwę pliku w którym mają być przechowywane zadania dla przyszłych wykonań programu.
 
 Zadanie zawiera:
 - Nazwę

@@ -15,8 +15,8 @@ class Settings {
 
         int getWorkHours();
         bool getWorkWeekends();
-        void setWorkHours(int hours);
-        void setWorkWeekends(bool weekends);
+        void setWorkHours(int);
+        void setWorkWeekends(bool);
 
         void setSettings(int, bool);
 
