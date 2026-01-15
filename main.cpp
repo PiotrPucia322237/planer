@@ -41,7 +41,7 @@ int main(int argc, char* argv[]){
     tm dueDateTm = *localtime(&now);
     ++dueDateTm.tm_mday;
     time_t dueDate = mktime(&dueDateTm);
-    Task myTask("Project progress", dueDate, 5.5, "Prepare anything for tomorrow");
+    Task myTask("Task 1", dueDate, 5.5, "Task 1 description.");
     tasks.push_back(myTask);
 
     dueDateTm.tm_mday = 18;
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]){
     dueDateTm.tm_min = 30;
     dueDateTm.tm_sec = 0;
     time_t anotherDueDate = mktime(&dueDateTm);
-    Task anotherTask("What", anotherDueDate, 0.01, "ever");
+    Task anotherTask("Task 2", anotherDueDate, 0.01, "Task 2 description.");
 
     std::cout << "Work hours left until 18.03 4:30:00: " << anotherTask.workHoursLeft() << '\n';
     tasks.push_back(anotherTask);

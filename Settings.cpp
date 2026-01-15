@@ -4,11 +4,11 @@ Settings * Settings::instance = nullptr;
 
 Settings::Settings(){
     std::fstream file("settings.babam", std::ios::in);
-    if (!file.good()) {
+    if (!file.good()) { // if there's no file
         file.close();
-        file.open("settings.babam", std::ios::out);
-        file << "8\n";
-        file << "0\n";
+        file.open("settings.babam", std::ios::out); // fill the file with default settings
+        file << "8\n"; // default workHours
+        file << "0\n"; // default workWeekends
         file.close();
         file.open("settings.babam", std::ios::in);
     }
