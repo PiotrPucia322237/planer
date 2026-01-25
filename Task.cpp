@@ -86,14 +86,19 @@ double Task::workHoursLeft(){
         helperDate = *localtime(&temp);
     }
 
-    if(workWeekends || (helperDate.tm_wday > 0 && helperDate.tm_wday < 6)){ // last day
+    if((daysLeft > 0) && (workWeekends || (helperDate.tm_wday > 0 && helperDate.tm_wday < 6))){ // last day
         double hoursLeftOnLastDay = helperDate.tm_hour + helperDate.tm_min/60.0 + helperDate.tm_sec/60.0/60;
         whl += hoursLeftOnLastDay > workHours ? workHours : hoursLeftOnLastDay; 
     }
 
     tm nowTM = *localtime(&temp);
-    if(workWeekends || (nowTM.tm_wday > 0 && nowTM.tm_wday < 6)){ // today
+    if((daysLeft > 0) && (workWeekends || (nowTM.tm_wday > 0 && nowTM.tm_wday < 6))){ // today
         double hoursLeftToday = (23 - nowTM.tm_hour) + (59-nowTM.tm_min)/60.0 + (59-nowTM.tm_sec)/60.0/60;
+        whl += hoursLeftToday > workHours ? workHours : hoursLeftToday; 
+    }
+
+    if(daysLeft == 0){ // due today
+        double hoursLeftToday = difftime(dueDate, now)/3600.0;
         whl += hoursLeftToday > workHours ? workHours : hoursLeftToday; 
     }
 
