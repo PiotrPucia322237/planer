@@ -1,0 +1,9 @@
+babam 1.25
+kot 3.5
+pies 2.75
+mysz 0.5
+ptak 4
+ryba 1
+krowa 5.5
+owca 2.25
+koza 3
