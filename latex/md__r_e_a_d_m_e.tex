@@ -1,0 +1,188 @@
+\chapter{Planer }
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{Planer@{Planer}}
+\label{md__r_e_a_d_m_e_autotoc_md0}%
+\Hypertarget{md__r_e_a_d_m_e_autotoc_md0}%
+
+
+Program zawiera zadania (\doxylink{class_task}{Task}) do wykonania. Użytkownik może dodawać nowe zadania i zmieniać ich status wykonania. Jeżeli ilość godzin roboczych pozostałych do terminu wykonania zadania zbliża się do oczekiwanego czasu pracy zadania, program ostrzeże o tym użytkownika. Użytkownik może również zmienić ilość swoich godzin roboczych oraz zaznaczyć czy pracuje w weekendy. Przy wywoływaniu programu, użytkownik może podać nazwę pliku w którym mają być przechowywane zadania dla przyszłych wykonań programu.
+
+Zadanie zawiera:\+
+
+
+\begin{DoxyItemize}
+\item Nazwę
+\item status dokonania
+\item opis (opcjonalnie)
+\item termin (t\+\_\+time)
+\item oczekiwany czas wykonania (w godzinach)
+\end{DoxyItemize}
+
+Ustawienia:\+
+
+
+\begin{DoxyItemize}
+\item ile godzin dziennie może zostać poświęconych zadaniom (0-\/24)
+\item czy użytkownik pracuje w weekendy
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md1}{}\doxysection{\texorpdfstring{Wzorzec projektowy Singleton}{Wzorzec projektowy Singleton}}\label{md__r_e_a_d_m_e_autotoc_md1}
+Ze strony \href{https://refactoring.guru/pl/design-patterns/singleton}{\texttt{https:\+/\+/\+refactoring.\+guru/\+pl/\+design-\/patterns/\+singleton}}, dostęp 19.\+01.\+2026 11:\+43:\+
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Singleton}} jest kreacyjnym wzorcem projektowym, który pozwala zapewnić istnienie wyłącznie jednej instancji danej klasy. Ponadto daje globalny punkt dostępowy do tejże instancji.
+\item Wszystkie implementacje wzorca Singleton współdzielą poniższe dwa etapy:\+
+\item -\/ Ograniczenie dostępu do domyślnego konstruktora przez uczynienie go prywatnym, aby zapobiec stosowaniu operatora {\ttfamily new} w stosunku do klasy Singleton.
+\begin{DoxyItemize}
+\item Utworzenie statycznej metody kreacyjnej, która będzie pełniła rolę konstruktora. Za kulisami, metoda ta wywoła prywatny konstruktor, aby utworzyć instancję obiektu i umieści go w polu statycznym klasy. Wszystkie kolejne wywołania tej metody zwrócą już istniejący obiekt.
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md2}{}\doxysection{\texorpdfstring{Struktura danych}{Struktura danych}}\label{md__r_e_a_d_m_e_autotoc_md2}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md3}{}\doxysubsection{\texorpdfstring{Klasa Settings (ustawienia)}{Klasa Settings (ustawienia)}}\label{md__r_e_a_d_m_e_autotoc_md3}
+
+\begin{DoxyItemize}
+\item instance -\/ statyczny wskaźnik do zmiennej klasy \doxylink{class_settings}{Settings}
+\item work\+Hours -\/ zmienna całkowitoliczbowa mówiąca o tym ile godzin użytkownik pracuje tygodniowo, zaopatrzona metodami get\+Work\+Hours() i set\+Work\+Hours(int)
+\item work\+Weekends -\/ zmienna logiczna prawda/\+fałsz mówiąca o tym czy użytkownik pracuje w weekendy, zaopatrzona metodami get\+Work\+Weekends() i set\+Work\+Weekends(bool)
+\item \doxylink{class_settings}{Settings()} -\/ {\bfseries{prywatny}} konstruktor wczytujący dane z pliku tekstowego settings.\+babam do aktualnej instancji, lub tworzący go z ustawieniami domyślnymi w przypadku braku tego pliku
+\item set\+Settings(int, bool) -\/ metoda ustawiająca zmienne work\+Hours i work\+Weekends dla aktualnej instancji
+\item save\+Settings() -\/ metoda zapisująca dane aktualnej instancji do pliku tekstowego settings.\+babam
+\item get\+Instance() -\/ {\bfseries{statyczna}} metoda, która zwraca zmienną instance, inicjując ją w przypadku jej braku
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md4}{}\doxysubsection{\texorpdfstring{Klasa Task (zadanie)}{Klasa Task (zadanie)}}\label{md__r_e_a_d_m_e_autotoc_md4}
+
+\begin{DoxyItemize}
+\item name -\/ zmienna tekstowa zawierająca nazwę zadania, zaopatrzona metodami get\+Name i set\+Name
+\item description -\/ zmienna tekstowa zawierająca opis zadania, zaopatrzona metodami get\+Description i set\+Description
+\item due\+Date -\/ zmienna typu time\+\_\+t zawierająca termin zadania, zaopatrzona metodami get\+Due\+Date i set\+Due\+Date
+\item expected\+Time -\/ zmienna zmiennoprzecinkowa zawierająca oczekiwany czas wykonania zadania, zaopatrzona metodami get\+Expected\+Time i set\+Expected\+Time
+\item is\+Completed -\/ zmienna logiczna prawda/\+fałsz zawierająca status dokonania zadania, zaopatrzona metodami get\+Is\+Completed i set\+Is\+Completed
+\item \doxylink{class_task}{Task}(std::\+string, time\+\_\+t, double, std::\+string = "{}"{}, bool = 0) -\/ konstruktor klasy, ustawiający dane aktualnego zadania zależnie od parametrów
+\item print\+Task() -\/ metoda robocza wypisująca dane o zadaniu do konsoli
+\item work\+Hours\+Left() -\/ metoda zwracająca ilość godzin roboczych pozostałych do terminu zakończenia zadania
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md5}{}\doxysection{\texorpdfstring{Wczytywanie danych}{Wczytywanie danych}}\label{md__r_e_a_d_m_e_autotoc_md5}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md6}{}\doxysubsection{\texorpdfstring{Ustawienia}{Ustawienia}}\label{md__r_e_a_d_m_e_autotoc_md6}
+
+\begin{DoxyItemize}
+\item inicjalizacja zmiennej typu std::\+fstream o nazwie file, z wartościami konstruktora "{}settings.\+babam"{} oraz std::\+ios::\+in
+\item jeżeli file.\+good() jest prawdą:\+
+\begin{DoxyItemize}
+\item inicjalizacja zmiennych \+\_\+work\+Hours oraz \+\_\+work\+Weekends
+\item wykonanie operacji wczytania ze streamu file do zmiennych kolejno \+\_\+work\+Hours oraz \+\_\+work\+Weekends
+\item zamknięcie pliku
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md7}{}\doxysubsection{\texorpdfstring{Zadania}{Zadania}}\label{md__r_e_a_d_m_e_autotoc_md7}
+
+\begin{DoxyItemize}
+\item jeżeli został podany argument:\+
+\begin{DoxyItemize}
+\item inicjalizacja zmiennej typu std::\+fstream o nazwie file, z wartością konstruktora wczytaną z argumentu wejściowego oraz std::\+ios::\+in
+\item jeżeli file.\+good() jest prawdą:\+
+\begin{DoxyItemize}
+\item inicjalizacja zmiennej tekstowej name
+\item pętla pod warunkiem sukcesu operacji czytania linii ze źródła file do zmiennej name:\+
+\begin{DoxyItemize}
+\item inicjalizacja zmiennych description, due\+Date, expected\+Time, is\+Completed
+\item wczytanie linii ze źródła file do zmiennej description
+\item wczytanie wartości kolejno do zmiennych due\+Date, expected\+Time, is\+Completed
+\item wczytanie linii ze źródła file aby przejść do kolejnej linii
+\item stworzenie nowego obiektu klasy \doxylink{class_task}{Task} na podstawie danych name, due\+Date, expected\+Time, description, is\+Completed
+\item dodanie tego obiektu do wektora tasks
+\end{DoxyItemize}
+\item zamknięcie pliku
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md8}{}\doxysection{\texorpdfstring{Zapis danych}{Zapis danych}}\label{md__r_e_a_d_m_e_autotoc_md8}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md9}{}\doxysubsection{\texorpdfstring{Ustawienia}{Ustawienia}}\label{md__r_e_a_d_m_e_autotoc_md9}
+
+\begin{DoxyItemize}
+\item inicjalizacja zmiennej typu std::\+fstream o nazwie file, z wartościami konstruktora "{}settings.\+babam"{} oraz std::\+ios::\+out
+\item jeżeli file.\+good() jest prawdą:\+
+\begin{DoxyItemize}
+\item zapis do pliku file wartości kolejno:\+ work\+Hours, \textquotesingle{}~\newline
+\textquotesingle{}, work\+Weekends, \textquotesingle{}~\newline
+\textquotesingle{}.
+\item zamknięcie pliku
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md10}{}\doxysubsection{\texorpdfstring{Zadania}{Zadania}}\label{md__r_e_a_d_m_e_autotoc_md10}
+
+\begin{DoxyItemize}
+\item jeżeli został podany argument:\+
+\item -\/ inicjalizacja zmiennej typu std::\+fstream o nazwie file, z wartością konstruktora wczytaną z argumentu wejściowego oraz std::\+ios::\+out
+\begin{DoxyItemize}
+\item jeżeli file.\+good() jest prawdą:\+
+\item -\/ pętla po kolei wywołująca się dla każdego elementu wektora tasks:\+
+\begin{DoxyItemize}
+\item zapis do pliku file wartości kolejno:\+ task.\+get\+Name(), task.\+get\+Description(), task.\+get\+Due\+Date(), task.\+get\+Expected\+Time(), task.\+get\+Is\+Completed()
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+zamknięcie pliku\hypertarget{md__r_e_a_d_m_e_autotoc_md11}{}\doxysection{\texorpdfstring{Algorytmy}{Algorytmy}}\label{md__r_e_a_d_m_e_autotoc_md11}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md12}{}\doxysubsection{\texorpdfstring{Settings::\+\+Settings()}{Settings::\+\+Settings()}}\label{md__r_e_a_d_m_e_autotoc_md12}
+
+\begin{DoxyItemize}
+\item inicjalizacja zmiennej file, przygotowanie do czytania pliku settings.\+babam
+\item jeżeli plik się nie otworzył:\+
+\item -\/ zamknięcie pliku
+\begin{DoxyItemize}
+\item otwarcie pliku do wypisu
+\item zapisanie danych domyślnych
+\item zamknięcie pliku
+\item otwarcie pliku do czytania
+\end{DoxyItemize}
+\item wczytanie dwóch kolejnych danych z pliku
+\item zamknięcie pliku
+\item zapis danych do zmiennych aktualnej instancji pliku
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md13}{}\doxysubsection{\texorpdfstring{Settings::\+save\+Settings()}{Settings::\+save\+Settings()}}\label{md__r_e_a_d_m_e_autotoc_md13}
+
+\begin{DoxyItemize}
+\item wywołanie metody Settings::\+get\+Instance jako gwarancja że instancja klasy istnieje
+\item otwarcie pliku wyjściowego settings.\+babam
+\item jeżeli plik się otworzył:\+
+\begin{DoxyItemize}
+\item zapis danych
+\item zamknięcie pliku
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md14}{}\doxysubsection{\texorpdfstring{Task::\+work\+Hours\+Left()}{Task::\+work\+Hours\+Left()}}\label{md__r_e_a_d_m_e_autotoc_md14}
+Algorytm służący do obliczenia ilości godzin roboczych pomiędzy aktualną datą i właściwością "{}due\+Date"{}
+
+
+\begin{DoxyItemize}
+\item inicjalizacja zmiennej zmiennoprzecinkowej whl (work hours left)
+\item inicjalizacja zmiennej now typu time\+\_\+t, wypełnienie jej aktualną datą
+\item inicjalizacja zmiennych work\+Hours i work\+Weekends, pobranych z Settings::\+get\+Instance()
+\item inicjalizacja zmiennej hl (hours left), wypełnienie jej różnicą czasu pomiędzy zmienną aktualnej instancji due\+Date oraz now podzielonej przez 3600
+\item inicjalizacja zmiennej weeks\+Left, wypełnienie jej ilorazem hl, 24, oraz 7
+\item wypełnienie zmiennej whl iloczynem zmiennych weeks\+Left, work\+Hours, oraz zależnie od zmiennej work\+Weekends albo 7 albo 5 -\/ weeks\+Left to zmienna stałoliczbowa, więc wszelki nadmiar zostaje "{}ucięty"{}
+\item odjęcie od zmiennej hl iloczynu 24, 7 oraz zmiennej weeks\+Left
+\item inicjalizacja zmiennej stałoliczbowej days\+Left, wypełnienie jest ilorazem hl oraz 24
+\item jeżeli zmienna days\+Left jest równa zero:\+
+\item -\/ inicjalizacja zmiennej typu double hours\+Left\+Today, wypełnienie jej różnicą czasu pomiędzy terminem zadania oraz aktualnym czasem, podzieloną przez 3600.\+0 (ilość sekund w godzinie)
+\begin{DoxyItemize}
+\item dodanie do zmiennej whl zmiennej work\+Hours lub hours\+Left\+Today, zależnie od tego która wartość jest niższa
+\item zwrócenie przez algorytm zmiennej whl
+\end{DoxyItemize}
+\item inicjalizacja zmiennej typu time\+\_\+t temp, wypełnienie jej sumą now oraz 60\texorpdfstring{$\ast$}{*}60\texorpdfstring{$\ast$}{*}24 (jutrzejszy dzień)
+\item inicjalizacja zmiennej typu tm helper\+Date, wypełnienie jej zmienną temp
+\item inicjalizacja zmiennej typu tm due\+Date\+TM, wypełnienie jej zmienną due\+Date\+TM
+\item ustawienie godziny, minuty i sekundy helper\+Date danymi z due\+Date\+TM
+\item pętla działająca jeżeli różnica czasu helper\+Date oraz now jest mniejsza niż iloczyn days\+Left, 60, 60, i 24:\+
+\begin{DoxyItemize}
+\item jeżeli work\+Weekends jest prawdą lub jeżeli helper\+Date.\+tm\+\_\+wday jest pomiędzy 1 a 5 (jest dniem roboczym):\+
+\begin{DoxyItemize}
+\item dodanie do whl zmiennej work\+Hours
+\end{DoxyItemize}
+\item zmiana wartości helper\+Date na kolejny dzień
+\end{DoxyItemize}
+\item jeżeli work\+Weekends jest prawdą lub jeżeli helper\+Date.\+tm\+\_\+wday jest pomiędzy 1 a 5 (jest dniem roboczym):\+
+\begin{DoxyItemize}
+\item dodanie do zmiennej whl ilości godzin pozostałych ostatniego dnia lub zmiennej work\+Hours, zależnie od tego która wartość jest mniejsza
+\end{DoxyItemize}
+\item inicjalizacja zmiennej typu tm now\+TM danymi na podstawie zmiennej temp
+\item jeżeli work\+Weekends jest prawdą lub jeżeli now\+TM.\+tm\+\_\+wday jest pomiędzy 1 a 5 (jest dniem roboczym):\+
+\begin{DoxyItemize}
+\item dodanie do zmiennej whl ilości godzin pozostałych dzisiejszego dnia lub zmiennej work\+Hours, zależnie od tego która wartość jest mniejsza
+\end{DoxyItemize}
+\item zwrócenie zmiennej whl
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md15}{}\doxysection{\texorpdfstring{Wnioski}{Wnioski}}\label{md__r_e_a_d_m_e_autotoc_md15}
+
+\begin{DoxyItemize}
+\item program zrobiony w strukturze wygodnej do rozszerzenia o nowe funkcjonalności, np. możliwość "{}łączenia"{} zadań -\/ sprowadza się to do dodania ich czasów wykonania 
+\end{DoxyItemize}
