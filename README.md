@@ -19,11 +19,6 @@ Ustawienia:
 - ile godzin dziennie może zostać poświęconych zadaniom (0-24)
 - czy użytkownik pracuje w weekendy
 
-Elementy do dodania:
-
-- instrukcja; przykłady
-- uwagi, wnioski (np. jak można rozszerzyć program)
-
 ## Wzorzec projektowy Singleton
 
 Ze strony [https://refactoring.guru/pl/design-patterns/singleton](https://refactoring.guru/pl/design-patterns/singleton), dostęp 19.01.2026 11:43:
@@ -126,6 +121,8 @@ Ze strony [https://refactoring.guru/pl/design-patterns/singleton](https://refact
 
 ### Task::workHoursLeft()
 
+Algorytm służący do obliczenia ilości godzin roboczych pomiędzy aktualną datą i właściwością "dueDate"
+
 - inicjalizacja zmiennej zmiennoprzecinkowej whl (work hours left)
 - inicjalizacja zmiennej now typu time_t, wypełnienie jej aktualną datą
 - inicjalizacja zmiennych workHours i workWeekends, pobranych z Settings::getInstance()
@@ -134,6 +131,10 @@ Ze strony [https://refactoring.guru/pl/design-patterns/singleton](https://refact
 - wypełnienie zmiennej whl iloczynem zmiennych weeksLeft, workHours, oraz zależnie od zmiennej workWeekends albo 7 albo 5 - weeksLeft to zmienna stałoliczbowa, więc wszelki nadmiar zostaje "ucięty"
 - odjęcie od zmiennej hl iloczynu 24, 7 oraz zmiennej weeksLeft
 - inicjalizacja zmiennej stałoliczbowej daysLeft, wypełnienie jest ilorazem hl oraz 24
+- jeżeli zmienna daysLeft jest równa zero:
+- - inicjalizacja zmiennej typu double hoursLeftToday, wypełnienie jej różnicą czasu pomiędzy terminem zadania oraz aktualnym czasem, podzieloną przez 3600.0 (ilość sekund w godzinie)
+  - dodanie do zmiennej whl zmiennej workHours lub hoursLeftToday, zależnie od tego która wartość jest niższa
+  - zwrócenie przez algorytm zmiennej whl
 - inicjalizacja zmiennej typu time_t temp, wypełnienie jej sumą now oraz 60\*60\*24 (jutrzejszy dzień)
 - inicjalizacja zmiennej typu tm helperDate, wypełnienie jej zmienną temp
 - inicjalizacja zmiennej typu tm dueDateTM, wypełnienie jej zmienną dueDateTM

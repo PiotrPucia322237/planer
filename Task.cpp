@@ -70,6 +70,12 @@ double Task::workHoursLeft(){
     hl = hl - weeksLeft*24*7;
 
     int daysLeft = hl / 24;
+
+    if(daysLeft == 0){ // due today
+        double hoursLeftToday = difftime(dueDate, now)/3600.0;
+        whl += hoursLeftToday > workHours ? workHours : hoursLeftToday; 
+        return whl;
+    }
     
     time_t temp = now + 60*60*24;
     tm helperDate = *localtime(&temp); // now + 1 day; will be used to go through weekdays
@@ -86,19 +92,14 @@ double Task::workHoursLeft(){
         helperDate = *localtime(&temp);
     }
 
-    if((daysLeft > 0) && (workWeekends || (helperDate.tm_wday > 0 && helperDate.tm_wday < 6))){ // last day
+    if(workWeekends || (helperDate.tm_wday > 0 && helperDate.tm_wday < 6)){ // last day
         double hoursLeftOnLastDay = helperDate.tm_hour + helperDate.tm_min/60.0 + helperDate.tm_sec/60.0/60;
         whl += hoursLeftOnLastDay > workHours ? workHours : hoursLeftOnLastDay; 
     }
 
     tm nowTM = *localtime(&temp);
-    if((daysLeft > 0) && (workWeekends || (nowTM.tm_wday > 0 && nowTM.tm_wday < 6))){ // today
+    if(workWeekends || (nowTM.tm_wday > 0 && nowTM.tm_wday < 6)){ // today
         double hoursLeftToday = (23 - nowTM.tm_hour) + (59-nowTM.tm_min)/60.0 + (59-nowTM.tm_sec)/60.0/60;
-        whl += hoursLeftToday > workHours ? workHours : hoursLeftToday; 
-    }
-
-    if(daysLeft == 0){ // due today
-        double hoursLeftToday = difftime(dueDate, now)/3600.0;
         whl += hoursLeftToday > workHours ? workHours : hoursLeftToday; 
     }
 
